@@ -88,7 +88,6 @@ stdlib/public/stubs/CMakeFiles/swiftStdlibStubs-macosx-x86_64.dir/Stubs.cpp.o
 stdlib/public/stubs/CMakeFiles/swiftStdlibStubs-macosx-x86_64.dir/ThreadLocalStorage.cpp.o
 stdlib/public/stubs/CMakeFiles/swiftStdlibStubs-macosx-x86_64.dir/MathStubs.cpp.o
 stdlib/public/stubs/CMakeFiles/swiftStdlibStubs-macosx-x86_64.dir/Availability.mm.o
-stdlib/public/stubs/CMakeFiles/swiftStdlibStubs-macosx-x86_64.dir/FoundationHelpers.mm.o
 stdlib/public/stubs/CMakeFiles/swiftStdlibStubs-macosx-x86_64.dir/OptionalBridgingHelper.mm.o
 stdlib/public/stubs/CMakeFiles/swiftStdlibStubs-macosx-x86_64.dir/Reflection.mm.o
 stdlib/public/stubs/CMakeFiles/swiftStdlibStubs-macosx-x86_64.dir/SwiftNativeNSXXXBaseARC.m.o

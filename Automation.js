@@ -40,20 +40,15 @@ const LLVMBuilder = require("./lib/Builders/LLVMBuilder");
 const SwiftStdLibBuilder = require("./lib/Builders/SwiftStdLibBuilder");
 const SwiftBuilder = require("./lib/Builders/SwiftBuilder");
 const CMarkBuilder = require("./lib/Builders/CMarkBuilder");
-const DispatchBuilder = require("./lib/Builders/DispatchBuilder");
-const FoundationBuilder = require("./lib/Builders/FoundationBuilder");
 const ICUBuilder = require("./lib/Builders/ICUBuilder");
 const ICUHostBuilder = require("./lib/Builders/ICUHostBuilder");
 const XMLBuilder = require("./lib/Builders/XMLBuilder");
-const CURLBuilder = require("./lib/Builders/CURLBuilder");
-const SSLBuilder = require("./lib/Builders/SSLBuilder");
 const SwiftTSCBuilder = require("./lib/Builders/SwiftTSCBuilder");
 const LLBBuilder = require("./lib/Builders/LLBBuilder");
 const SPMBuilder = require("./lib/Builders/SPMBuilder");
 const SAPBuilder = require("./lib/Builders/SAPBuilder");
 const YAMSBuilder = require("./lib/Builders/YAMSBuilder");
 const SwiftDriverBuilder = require("./lib/Builders/SwiftDriverBuilder");
-const SwiftCryptoBuilder = require("./lib/Builders/SwiftCryptoBuilder");
 
 module.exports = class Automation extends Tool {
   run() {
@@ -112,10 +107,6 @@ module.exports = class Automation extends Tool {
       new LLVMBuilder().runAction(action);
     } else if (component == "stdlib") {
       this.archs.forEach((item) => new SwiftStdLibBuilder(item).runAction(action));
-    } else if (component == "dispatch") {
-      this.archs.forEach((item) => new DispatchBuilder(item).runAction(action));
-    } else if (component == "foundation") {
-      this.archs.forEach((item) => new FoundationBuilder(item).runAction(action));
     } else if (component == "icu") {
       new ICUHostBuilder().runAction(action)
       this.archs.forEach((item) => new ICUBuilder(item).runAction(action));
@@ -125,10 +116,6 @@ module.exports = class Automation extends Tool {
       new CMarkBuilder().runAction(action);
     } else if (component == "xml") {
       this.archs.forEach((item) => new XMLBuilder(item).runAction(action));
-    } else if (component == "ssl") {
-      this.archs.forEach((item) => new SSLBuilder(item).runAction(action));
-    } else if (component == "curl") {
-      this.archs.forEach((item) => new CURLBuilder(item).runAction(action));
     } else if (component == "tsc") {
       new SwiftTSCBuilder().runAction(action);
     } else if (component == "llb") {
@@ -141,8 +128,6 @@ module.exports = class Automation extends Tool {
       new YAMSBuilder().runAction(action);
     } else if (component == "sd") {
       new SwiftDriverBuilder().runAction(action);
-    } else if (component == "sc") {
-      new SwiftCryptoBuilder().runAction(action);
     } else {
       this.logError(`! Unknown component \"${component}\".`);
       this.usage();
@@ -161,8 +146,6 @@ module.exports = class Automation extends Tool {
     this.runComponentAction("llvm", "make")
     this.runComponentAction("icu", "make")
     this.runComponentAction("xml", "make")
-    this.runComponentAction("ssl", "make")
-    this.runComponentAction("curl", "make")
   }
 
   /** @private */
@@ -173,7 +156,6 @@ module.exports = class Automation extends Tool {
     this.runComponentAction("tsc", "make")
     this.runComponentAction("llb", "make")
     this.runComponentAction("sd", "make")
-    this.runComponentAction("sc", "make")
     this.runComponentAction("spm", "make")
   }
 
@@ -181,8 +163,6 @@ module.exports = class Automation extends Tool {
   stage3() {
     this.runComponentAction("swift", "make")
     this.runComponentAction("stdlib", "make")
-    this.runComponentAction("dispatch", "make")
-    this.runComponentAction("foundation", "make")
   }
 
   /** @private */
@@ -191,12 +171,8 @@ module.exports = class Automation extends Tool {
     this.runComponentAction("cmark", "clean")
     this.runComponentAction("icu", "clean")
     this.runComponentAction("xml", "clean")
-    this.runComponentAction("ssl", "clean")
-    this.runComponentAction("curl", "clean")
     this.runComponentAction("swift", "clean")
     this.runComponentAction("stdlib", "clean")
-    this.runComponentAction("dispatch", "clean")
-    this.runComponentAction("foundation", "clean")
     this.runComponentAction("tsc", "clean")
     this.runComponentAction("llb", "clean")
     this.runComponentAction("spm", "clean")
@@ -212,11 +188,7 @@ module.exports = class Automation extends Tool {
     paths.push(Paths.sourcesDirPath(Components.cmark))
     paths.push(Paths.sourcesDirPath(Components.icu))
     paths.push(Paths.sourcesDirPath(Components.xml))
-    paths.push(Paths.sourcesDirPath(Components.ssl))
-    paths.push(Paths.sourcesDirPath(Components.curl))
     paths.push(Paths.sourcesDirPath(Components.swift))
-    paths.push(Paths.sourcesDirPath(Components.dispatch))
-    paths.push(Paths.sourcesDirPath(Components.foundation))
     paths.push(Paths.sourcesDirPath(Components.tsc))
     paths.push(Paths.sourcesDirPath(Components.llb))
     paths.push(Paths.sourcesDirPath(Components.spm))
@@ -227,11 +199,7 @@ module.exports = class Automation extends Tool {
   verify() {
     this.runComponentAction("icu", "verify")
     this.runComponentAction("xml", "verify")
-    this.runComponentAction("ssl", "verify")
-    this.runComponentAction("curl", "verify")
     this.runComponentAction("stdlib", "verify")
-    this.runComponentAction("dispatch", "verify")
-    this.runComponentAction("foundation", "verify")
   }
 
   /** @private */
@@ -299,7 +267,7 @@ module.exports = class Automation extends Tool {
     this.print("6. (Optional) Clean toolchain build:", 32);
     this.print("   $ node main.js clean\n", 36);
 
-    this.print("Building certain component (i.e. llvm, icu, xml, ssl, curl, swift, stdlib, dispatch, foundation):\n", 33);
+    this.print("Building certain component (i.e. llvm, icu, xml, swift, stdlib):\n", 33);
 
     this.print("To build only certain component:", 32);
     this.print("   $ node main.js llvm:build\n", 36);
@@ -312,7 +280,7 @@ module.exports = class Automation extends Tool {
   verifyXcodeAndExitIfNeeded() {
     var xcodeVersion = cp.execSync("xcodebuild -version").toString().trim()
     let version = xcodeVersion.split("\n").filter((comp) => comp.includes("Xcode"))[0]
-    if (!version.includes(12)) {
+    if (!version.includes(13)) {
       this.print("Please use Xcode 12.", 31)
       this.print("Your Xcode version seems too old or too new:", 36)
       this.print(xcodeVersion, 32)
