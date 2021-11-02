@@ -54,9 +54,6 @@ class Builder < Troubleshooter
       -I#{@ndk}/sysroot/usr/include
       -I#{@ndk}/sysroot/usr/include/arm-linux-androideabi
 
-      # -isystem #{@toolChain}/Sources/icu/icu4c/source/common
-      # -isystem #{@toolChain}/Sources/icu/icu4c/source/i18n
-
       -MD -MT #{@build}/Array.cpp.o
       -MF #{@build}/Array.cpp.o.d
       -o #{@build}/Array.cpp.o

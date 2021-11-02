@@ -47,8 +47,6 @@ cd #{@builds}/darwin/swift &&
 "-I#{@ndk}/sysroot/usr/include"
 "-I#{@ndk}/sysroot/usr/include/arm-linux-androideabi"
 
--isystem #{@sources}/icu/icu4c/source/common
--isystem #{@sources}/icu/icu4c/source/i18n
 -MD -MT stdlib/public/runtime/CMakeFiles/swiftImageRegistrationObjectELF-android-armv7.dir/SwiftRT-ELF.cpp.o
 -MF stdlib/public/runtime/CMakeFiles/swiftImageRegistrationObjectELF-android-armv7.dir/SwiftRT-ELF.cpp.o.d
 -o stdlib/public/runtime/CMakeFiles/swiftImageRegistrationObjectELF-android-armv7.dir/SwiftRT-ELF.cpp.o

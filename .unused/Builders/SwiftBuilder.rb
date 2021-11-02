@@ -104,31 +104,6 @@ class SwiftBuilder < Builder
       }
       cmd << "-DSWIFT_SDK_ANDROID_ARCHITECTURES=\"#{archs.join(";")}\""
 
-      icu = ICUBuilder.new(Arch.armv7a)
-      cmd << "-DSWIFT_ANDROID_armv7_ICU_UC=#{icu.lib}/libicuucswift.so"
-      cmd << "-DSWIFT_ANDROID_armv7_ICU_UC_INCLUDE=#{icu.sources}/source/common"
-      cmd << "-DSWIFT_ANDROID_armv7_ICU_I18N=#{icu.lib}/libicui18nswift.so"
-      cmd << "-DSWIFT_ANDROID_armv7_ICU_I18N_INCLUDE=#{icu.sources}/source/i18n"
-      cmd << "-DSWIFT_ANDROID_armv7_ICU_DATA=#{icu.lib}/libicudataswift.so"
-      icu = ICUBuilder.new(Arch.aarch64)
-      cmd << "-DSWIFT_ANDROID_aarch64_ICU_UC=#{icu.lib}/libicuucswift.so"
-      cmd << "-DSWIFT_ANDROID_aarch64_ICU_UC_INCLUDE=#{icu.sources}/source/common"
-      cmd << "-DSWIFT_ANDROID_aarch64_ICU_I18N=#{icu.lib}/libicui18nswift.so"
-      cmd << "-DSWIFT_ANDROID_aarch64_ICU_I18N_INCLUDE=#{icu.sources}/source/i18n"
-      cmd << "-DSWIFT_ANDROID_aarch64_ICU_DATA=#{icu.lib}/libicudataswift.so"
-      icu = ICUBuilder.new(Arch.x86)
-      cmd << "-DSWIFT_ANDROID_i686_ICU_UC=#{icu.lib}/libicuucswift.so"
-      cmd << "-DSWIFT_ANDROID_i686_ICU_UC_INCLUDE=#{icu.sources}/source/common"
-      cmd << "-DSWIFT_ANDROID_i686_ICU_I18N=#{icu.lib}/libicui18nswift.so"
-      cmd << "-DSWIFT_ANDROID_i686_ICU_I18N_INCLUDE=#{icu.sources}/source/i18n"
-      cmd << "-DSWIFT_ANDROID_i686_ICU_DATA=#{icu.lib}/libicudataswift.so"
-      icu = ICUBuilder.new(Arch.x64)
-      cmd << "-DSWIFT_ANDROID_x86_64_ICU_UC=#{icu.lib}/libicuucswift.so"
-      cmd << "-DSWIFT_ANDROID_x86_64_ICU_UC_INCLUDE=#{icu.sources}/source/common"
-      cmd << "-DSWIFT_ANDROID_x86_64_ICU_I18N=#{icu.lib}/libicui18nswift.so"
-      cmd << "-DSWIFT_ANDROID_x86_64_ICU_I18N_INCLUDE=#{icu.sources}/source/i18n"
-      cmd << "-DSWIFT_ANDROID_x86_64_ICU_DATA=#{icu.lib}/libicudataswift.so"
-
       cFlags = "-Wno-unknown-warning-option -Werror=unguarded-availability-new -fno-stack-protector"
       cmd << "-DCMAKE_C_FLAGS='#{cFlags}'"
       cmd << "-DCMAKE_CXX_FLAGS='#{cFlags}'"
@@ -174,7 +149,6 @@ class SwiftBuilder < Builder
       end
 
       cmd << "-DSWIFT_PRIMARY_VARIANT_SDK=ANDROID"
-      cmd << "-DSWIFT_PATH_TO_LIBICU_BUILD=#{@builds}" # Value at the moment not really used in build process, but used in Cmake logic routines.
 
       cmd << "-DSWIFT_HOST_VARIANT_ARCH=x86_64"
       cmd << "-DLLVM_LIT_ARGS=-sv"
@@ -217,13 +191,13 @@ class SwiftBuilder < Builder
       @archsToBuild.each { |arch|
          setupToolsSymLinks(arch)
          if arch == "x86"
-            targets = "swiftGlibc-android-i686 swiftCore-android-i686 swiftSwiftOnoneSupport-android-i686 swiftRemoteMirror-android-i686"
+            targets = "swiftGlibc-android-i686 swiftCore-android-i686"
          elsif arch == "armv7a"
-            targets = "swiftGlibc-android-armv7 swiftCore-android-armv7 swiftSwiftOnoneSupport-android-armv7 swiftRemoteMirror-android-armv7"
+            targets = "swiftGlibc-android-armv7 swiftCore-android-armv7"
          elsif arch == "aarch64"
-            targets = "swiftGlibc-android-aarch64 swiftCore-android-aarch64 swiftSwiftOnoneSupport-android-aarch64 swiftRemoteMirror-android-aarch64"
+            targets = "swiftGlibc-android-aarch64 swiftCore-android-aarch64"
          else
-            targets = "swiftGlibc-android-x86_64 swiftCore-android-x86_64 swiftSwiftOnoneSupport-android-x86_64 swiftRemoteMirror-android-x86_64"
+            targets = "swiftGlibc-android-x86_64 swiftCore-android-x86_64"
          end
          execute "cd #{@builds} && ninja -j#{numberOfJobs} #{targets}"
       }

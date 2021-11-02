@@ -40,9 +40,6 @@ const LLVMBuilder = require("./lib/Builders/LLVMBuilder");
 const SwiftStdLibBuilder = require("./lib/Builders/SwiftStdLibBuilder");
 const SwiftBuilder = require("./lib/Builders/SwiftBuilder");
 const CMarkBuilder = require("./lib/Builders/CMarkBuilder");
-const ICUBuilder = require("./lib/Builders/ICUBuilder");
-const ICUHostBuilder = require("./lib/Builders/ICUHostBuilder");
-const XMLBuilder = require("./lib/Builders/XMLBuilder");
 const SwiftTSCBuilder = require("./lib/Builders/SwiftTSCBuilder");
 const LLBBuilder = require("./lib/Builders/LLBBuilder");
 const SPMBuilder = require("./lib/Builders/SPMBuilder");
@@ -107,15 +104,10 @@ module.exports = class Automation extends Tool {
       new LLVMBuilder().runAction(action);
     } else if (component == "stdlib") {
       this.archs.forEach((item) => new SwiftStdLibBuilder(item).runAction(action));
-    } else if (component == "icu") {
-      new ICUHostBuilder().runAction(action)
-      this.archs.forEach((item) => new ICUBuilder(item).runAction(action));
     } else if (component == "swift") {
       new SwiftBuilder().runAction(action);
     } else if (component == "cmark") {
       new CMarkBuilder().runAction(action);
-    } else if (component == "xml") {
-      this.archs.forEach((item) => new XMLBuilder(item).runAction(action));
     } else if (component == "tsc") {
       new SwiftTSCBuilder().runAction(action);
     } else if (component == "llb") {
@@ -144,8 +136,6 @@ module.exports = class Automation extends Tool {
   /** @private */
   stage1() {
     this.runComponentAction("llvm", "make")
-    this.runComponentAction("icu", "make")
-    this.runComponentAction("xml", "make")
   }
 
   /** @private */
@@ -169,8 +159,6 @@ module.exports = class Automation extends Tool {
   clean() {
     this.runComponentAction("llvm", "clean")
     this.runComponentAction("cmark", "clean")
-    this.runComponentAction("icu", "clean")
-    this.runComponentAction("xml", "clean")
     this.runComponentAction("swift", "clean")
     this.runComponentAction("stdlib", "clean")
     this.runComponentAction("tsc", "clean")
@@ -186,8 +174,6 @@ module.exports = class Automation extends Tool {
     var paths = []
     paths.push(Paths.sourcesDirPath(Components.llvm))
     paths.push(Paths.sourcesDirPath(Components.cmark))
-    paths.push(Paths.sourcesDirPath(Components.icu))
-    paths.push(Paths.sourcesDirPath(Components.xml))
     paths.push(Paths.sourcesDirPath(Components.swift))
     paths.push(Paths.sourcesDirPath(Components.tsc))
     paths.push(Paths.sourcesDirPath(Components.llb))
@@ -197,8 +183,6 @@ module.exports = class Automation extends Tool {
 
   /** @private */
   verify() {
-    this.runComponentAction("icu", "verify")
-    this.runComponentAction("xml", "verify")
     this.runComponentAction("stdlib", "verify")
   }
 
@@ -267,7 +251,7 @@ module.exports = class Automation extends Tool {
     this.print("6. (Optional) Clean toolchain build:", 32);
     this.print("   $ node main.js clean\n", 36);
 
-    this.print("Building certain component (i.e. llvm, icu, xml, swift, stdlib):\n", 33);
+    this.print("Building certain component (i.e. llvm, swift, stdlib):\n", 33);
 
     this.print("To build only certain component:", 32);
     this.print("   $ node main.js llvm:build\n", 36);

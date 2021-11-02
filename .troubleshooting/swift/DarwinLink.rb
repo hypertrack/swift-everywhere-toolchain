@@ -95,8 +95,7 @@ stdlib/public/stubs/CMakeFiles/swiftStdlibStubs-macosx-x86_64.dir/UnicodeNormali
 stdlib/public/stubs/CMakeFiles/swiftStdlibStubs-macosx-x86_64.dir/8/SwiftNativeNSXXXBase.mm.o
 stdlib/public/core/CMakeFiles/swiftCore-macosx-x86_64.dir/__/__/linker-support/magic-symbols-for-install-name.c.o
 -L/Volumes/Data/Repositories/Projects/swift-everywhere-toolchain/ToolChain/Build/darwin-host/llvm/./lib
--L /Volumes/Data/Repositories/Projects/swift-everywhere-toolchain/ToolChain/Install/darwin-host/icu-swift/lib
--licui18nswift -licuucswift -licudataswift -latomic
+-latomic
 EOM
    end
 

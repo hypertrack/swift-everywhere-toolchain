@@ -43,8 +43,7 @@ cd #{@builds}/darwin/swift &&
  "-I/Users/vova/Library/Android/sdk/ndk-bundle/sources/android/support/include"
  "-I/Users/vova/Library/Android/sdk/ndk-bundle/sysroot/usr/include"
  "-I/Users/vova/Library/Android/sdk/ndk-bundle/sysroot/usr/include/arm-linux-androideabi"
- -D__ANDROID_API__=21 -isystem /Users/vova/Repositories/GitHub/Projects/swift-everywhere-toolchain/ToolChain/Sources/icu/icu4c/source/common
- -isystem /Users/vova/Repositories/GitHub/Projects/swift-everywhere-toolchain/ToolChain/Sources/icu/icu4c/source/i18n
+ -D__ANDROID_API__=21
  -MD -MT stdlib/public/runtime/CMakeFiles/swiftRuntime-android-armv7.dir/Casting.cpp.o
  -MF stdlib/public/runtime/CMakeFiles/swiftRuntime-android-armv7.dir/Casting.cpp.o.d
  -o stdlib/public/runtime/CMakeFiles/swiftRuntime-android-armv7.dir/Casting.cpp.o
